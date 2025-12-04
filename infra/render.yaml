@@ -1,0 +1,29 @@
+# Render.com Deployment Configuration
+# IPruBudEx Backend API
+
+services:
+  - type: web
+    name: iprubudex-backend
+    env: python
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: "pip install -r requirements.txt && cd backend && npm install && npx prisma generate"
+    startCommand: "python backend/app.py"
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: DB_PROVIDER
+        value: postgresql
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+    healthCheckPath: /health
+
+databases:
+  - name: iprubudex-db
+    databaseName: iprubudex
+    user: iprubudex_user
+    plan: free
+    region: oregon
