@@ -1,24 +1,41 @@
 # Render.com Deployment Configuration
-# IPruBudEx Backend API
+# IPruBudEx Backend API - Production Grade
 
 services:
   - type: web
     name: iprubudex-backend
     env: python
     region: oregon
-    plan: free
+    plan: starter
     branch: main
-    buildCommand: "pip install -r requirements.txt && cd backend && npm install && npx prisma generate"
-    startCommand: "python backend/app.py"
+    rootDir: backend
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python app.py"
     envVars:
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: iprubudex-db
+          property: connectionString
       - key: DB_PROVIDER
         value: postgresql
       - key: FLASK_ENV
         value: production
+      - key: FLASK_DEBUG
+        value: False
       - key: SECRET_KEY
         generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: PORT
+        value: 5000
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: MAX_LOGIN_ATTEMPTS
+        value: 3
+      - key: JWT_EXPIRATION_MINUTES
+        value: 480
+      - key: CORS_ORIGINS
+        value: https://iprubudex.vercel.app
     healthCheckPath: /health
 
 databases:

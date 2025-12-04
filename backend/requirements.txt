@@ -1,5 +1,11 @@
 # IPruBudEx Backend - Python Dependencies
-# Phase 1: Basic Flask setup
 
 Flask==3.0.0
+Flask-CORS==4.0.0
 python-dotenv==1.0.0
+PyJWT==2.8.0
+bcrypt==4.1.2
+google-generativeai==0.3.2
+openpyxl==3.1.2
+pandas==2.2.0
+psycopg2-binary==2.9.9

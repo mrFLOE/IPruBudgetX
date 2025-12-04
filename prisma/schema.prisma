@@ -1,14 +1,12 @@
-// IPruBudEx - Prisma Schema
-// Phase 1: Base Models Only
+// IPruBudEx - Complete Prisma Schema
+// Production-grade schema with all models and relations
 // This schema supports multiple database providers
 //
-// IMPORTANT: To switch databases, manually change the provider below:
+// IMPORTANT: To switch databases, update DATABASE_URL and DB_PROVIDER in .env:
 // - "postgresql" (Default - Supabase)
 // - "mysql"
 // - "sqlserver"
 // - "sqlite"
-//
-// After changing provider, run: npm run prisma:generate
 
 generator client {
   provider = "prisma-client-js"
@@ -19,30 +17,87 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Base Model: User
+// User Model
 // Stores system users with authentication and role information
 model User {
-  id           String   @id @default(cuid())
-  name         String
-  email        String   @unique
-  passwordHash String
-  role         String
-  department   String?
-  createdAt    DateTime @default(now())
+  id              String   @id @default(cuid())
+  name            String
+  email           String   @unique
+  passwordHash    String
+  role            String
+  departmentId    String?
+  isLocked        Boolean  @default(false)
+  failedAttempts  Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  department      Department?       @relation(fields: [departmentId], references: [id])
+  budgetRequests  BudgetRequest[]   @relation("RequestCreator")
+  approvalRecords ApprovalRecord[]
+  auditLogs       AuditLog[]
 
   @@map("users")
+  @@index([email])
+  @@index([departmentId])
 }
 
-// Base Model: Department
+// Department Model
 // Organizational departments for user assignment
 model Department {
-  id   String @id @default(cuid())
-  name String @unique
+  id             String          @id @default(cuid())
+  name           String          @unique
+  createdAt      DateTime        @default(now())
+
+  users          User[]
+  budgetRequests BudgetRequest[]
 
   @@map("departments")
 }
 
-// Base Model: AuditLog
+// BudgetRequest Model
+// CAPEX/OPEX budget requests with approval workflow
+model BudgetRequest {
+  id              String   @id @default(cuid())
+  type            String
+  amount          Float
+  category        String
+  justification   String   @db.Text
+  departmentId    String
+  requesterId     String
+  status          String   @default("DRAFT")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  department      Department        @relation(fields: [departmentId], references: [id])
+  requester       User              @relation("RequestCreator", fields: [requesterId], references: [id])
+  approvalRecords ApprovalRecord[]
+
+  @@map("budget_requests")
+  @@index([status])
+  @@index([requesterId])
+  @@index([departmentId])
+}
+
+// ApprovalRecord Model
+// Tracks approval workflow for each budget request
+model ApprovalRecord {
+  id              String   @id @default(cuid())
+  requestId       String
+  approverId      String
+  role            String
+  decision        String
+  comments        String?  @db.Text
+  timestamp       DateTime @default(now())
+
+  request         BudgetRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  approver        User          @relation(fields: [approverId], references: [id])
+
+  @@map("approval_records")
+  @@index([requestId])
+  @@index([approverId])
+}
+
+// AuditLog Model
 // System-wide audit trail for all actions
 model AuditLog {
   id        String   @id @default(cuid())
@@ -51,14 +106,19 @@ model AuditLog {
   metadata  Json?
   timestamp DateTime @default(now())
 
+  user      User     @relation(fields: [userId], references: [id])
+
   @@map("audit_logs")
+  @@index([userId])
+  @@index([timestamp])
 }
 
-// Base Model: SystemConfig
+// SystemConfig Model
 // Key-value store for system configuration
 model SystemConfig {
-  key   String @id
-  value String
+  key       String   @id
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
 
   @@map("system_config")
 }
