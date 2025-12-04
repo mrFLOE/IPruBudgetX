@@ -1,24 +1,32 @@
-// IPruBudEx - Complete Prisma Schema
+// IpruBudgetX - Multi-Database Prisma Schema
 // Production-grade schema with all models and relations
-// This schema supports multiple database providers
+// Supports seamless database switching via configuration
 //
-// IMPORTANT: To switch databases, update DATABASE_URL and DB_PROVIDER in .env:
-// - "postgresql" (Default - Supabase)
-// - "mysql"
-// - "sqlserver"
-// - "sqlite"
+// SUPPORTED DATABASES:
+// - PostgreSQL (Default - Supabase) ← Current
+// - MySQL
+// - Microsoft SQL Server
+// - SQLite
+//
+// TO SWITCH DATABASES (Under 1 Minute):
+// 1. Change provider below to: postgresql, mysql, sqlserver, or sqlite
+// 2. Update DATABASE_URL in .env with appropriate connection string
+// 3. Run: npx prisma generate
+// 4. Run: npx prisma migrate dev --name init
+//
+// NO APPLICATION CODE CHANGES REQUIRED!
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "postgresql"  // Change to: mysql, sqlserver, or sqlite
   url      = env("DATABASE_URL")
 }
 
 // User Model
-// Stores system users with authentication and role information
+// Stores system users with authentication, role information, and preferences
 model User {
   id              String   @id @default(cuid())
   name            String
@@ -28,6 +36,7 @@ model User {
   departmentId    String?
   isLocked        Boolean  @default(false)
   failedAttempts  Int      @default(0)
+  theme           String   @default("light")
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
