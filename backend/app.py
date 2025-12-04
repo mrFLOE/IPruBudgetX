@@ -8,6 +8,11 @@ Supports multi-database switching via environment configuration.
 
 import sys
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from the .env file in the project root
+dotenv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
+load_dotenv(dotenv_path=dotenv_path)
 
 sys.path.insert(0, os.path.dirname(__file__))
 
