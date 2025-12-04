@@ -1,0 +1,64 @@
+// IPruBudEx - Prisma Schema
+// Phase 1: Base Models Only
+// This schema supports multiple database providers
+//
+// IMPORTANT: To switch databases, manually change the provider below:
+// - "postgresql" (Default - Supabase)
+// - "mysql"
+// - "sqlserver"
+// - "sqlite"
+//
+// After changing provider, run: npm run prisma:generate
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Base Model: User
+// Stores system users with authentication and role information
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         String
+  department   String?
+  createdAt    DateTime @default(now())
+
+  @@map("users")
+}
+
+// Base Model: Department
+// Organizational departments for user assignment
+model Department {
+  id   String @id @default(cuid())
+  name String @unique
+
+  @@map("departments")
+}
+
+// Base Model: AuditLog
+// System-wide audit trail for all actions
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String
+  action    String
+  metadata  Json?
+  timestamp DateTime @default(now())
+
+  @@map("audit_logs")
+}
+
+// Base Model: SystemConfig
+// Key-value store for system configuration
+model SystemConfig {
+  key   String @id
+  value String
+
+  @@map("system_config")
+}

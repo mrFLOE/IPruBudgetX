@@ -1,0 +1,5 @@
+# IPruBudEx Backend - Python Dependencies
+# Phase 1: Basic Flask setup
+
+Flask==3.0.0
+python-dotenv==1.0.0

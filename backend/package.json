@@ -1,0 +1,20 @@
+{
+  "name": "iprubudex-backend",
+  "version": "0.1.0",
+  "description": "IPruBudEx Backend - Database Layer",
+  "main": "src/db/prismaClient.ts",
+  "scripts": {
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio",
+    "prisma:push": "prisma db push"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.0.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.0.0",
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}
