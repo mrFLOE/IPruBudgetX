@@ -13,7 +13,7 @@ def health_check():
 
     return jsonify({
         'status': 'healthy',
-        'service': 'IPruBudEx API',
+        'service': 'IpruBudgetX API',
         'database': db_status,
         'version': '1.0.0'
     }), 200

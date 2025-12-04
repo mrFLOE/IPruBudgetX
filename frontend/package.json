@@ -1,7 +1,7 @@
 {
-  "name": "iprubudex-frontend",
+  "name": "iprubudgetx-frontend",
   "version": "1.0.0",
-  "description": "IPruBudEx Frontend - Budget Management System",
+  "description": "IpruBudgetX Frontend - Budget Management System",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",

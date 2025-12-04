@@ -45,6 +45,8 @@ export const usersAPI = {
   lock: (id: string) => api.patch(`/admin/users/${id}/lock`),
   unlock: (id: string) => api.patch(`/admin/users/${id}/unlock`),
   delete: (id: string) => api.delete(`/admin/users/${id}`),
+  changePassword: (data: { old_password: string; new_password: string }) =>
+    api.post('/users/change-password', data),
 };
 
 export const requestsAPI = {

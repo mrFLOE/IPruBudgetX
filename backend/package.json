@@ -1,7 +1,7 @@
 {
-  "name": "iprubudex-backend",
+  "name": "iprubudgetx-backend",
   "version": "0.1.0",
-  "description": "IPruBudEx Backend - Database Layer",
+  "description": "IpruBudgetX Backend - Database Layer",
   "main": "src/db/prismaClient.ts",
   "scripts": {
     "prisma:generate": "prisma generate",
