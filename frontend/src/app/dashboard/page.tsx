@@ -65,7 +65,7 @@ export default function DashboardPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 dark:border-primary-400"></div>
         </div>
       </div>
     );
@@ -74,8 +74,8 @@ export default function DashboardPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Welcome, {user?.name}</h1>
-        <p className="text-gray-600 mt-2">Role: {user?.role}</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Welcome, {user?.name}</h1>
+        <p className="text-gray-600 dark:text-gray-400 mt-2">Role: {user?.role}</p>
       </div>
 
       {user?.role === 'SUPER_ADMIN' && stats && (
@@ -103,21 +103,21 @@ export default function DashboardPage() {
         {(user?.role === 'REQUESTOR' || user?.role === 'SUPER_ADMIN') && (
           <div className="card">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold text-gray-900">Recent Requests</h2>
-              <Link href="/requests" className="text-primary-600 hover:text-primary-700 text-sm font-semibold">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Recent Requests</h2>
+              <Link href="/requests" className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-500 text-sm font-semibold">
                 View All →
               </Link>
             </div>
             {recentRequests.length === 0 ? (
-              <p className="text-gray-500">No requests yet</p>
+              <p className="text-gray-500 dark:text-gray-400">No requests yet</p>
             ) : (
               <div className="space-y-3">
                 {recentRequests.map((request) => (
-                  <div key={request.id} className="border-l-4 border-primary-500 pl-4 py-2">
+                  <div key={request.id} className="border-l-4 border-primary-500 dark:border-primary-600 pl-4 py-2">
                     <div className="flex justify-between items-start">
                       <div>
-                        <p className="font-semibold text-gray-900">{request.category}</p>
-                        <p className="text-sm text-gray-600">
+                        <p className="font-semibold text-gray-900 dark:text-gray-100">{request.category}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
                           ${request.amount.toLocaleString()} - {request.type}
                         </p>
                       </div>
@@ -135,22 +135,22 @@ export default function DashboardPage() {
         {['TECH_LEAD', 'DEPT_HEAD', 'FINANCE_ADMIN', 'FPNA', 'PRINCIPAL_FINANCE', 'CFO', 'SUPER_ADMIN'].includes(user?.role || '') && (
           <div className="card">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold text-gray-900">Pending Approvals</h2>
-              <Link href="/approvals" className="text-primary-600 hover:text-primary-700 text-sm font-semibold">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Pending Approvals</h2>
+              <Link href="/approvals" className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-500 text-sm font-semibold">
                 View All →
               </Link>
             </div>
             {pendingApprovals.length === 0 ? (
-              <p className="text-gray-500">No pending approvals</p>
+              <p className="text-gray-500 dark:text-gray-400">No pending approvals</p>
             ) : (
               <div className="space-y-3">
                 {pendingApprovals.map((request) => (
-                  <div key={request.id} className="border-l-4 border-yellow-500 pl-4 py-2">
-                    <p className="font-semibold text-gray-900">{request.category}</p>
-                    <p className="text-sm text-gray-600">
+                  <div key={request.id} className="border-l-4 border-yellow-500 dark:border-yellow-600 pl-4 py-2">
+                    <p className="font-semibold text-gray-900 dark:text-gray-100">{request.category}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       ${request.amount.toLocaleString()} - {request.requester_name}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">{request.department_name}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{request.department_name}</p>
                   </div>
                 ))}
               </div>
@@ -164,8 +164,8 @@ export default function DashboardPage() {
           <Link href="/requests/new" className="card hover:shadow-lg transition-shadow cursor-pointer">
             <div className="text-center">
               <div className="text-4xl mb-2">📝</div>
-              <h3 className="font-bold text-gray-900">Create New Request</h3>
-              <p className="text-sm text-gray-600 mt-2">Submit a new budget request</p>
+              <h3 className="font-bold text-gray-900 dark:text-gray-100">Create New Request</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">Submit a new budget request</p>
             </div>
           </Link>
         )}
@@ -174,8 +174,8 @@ export default function DashboardPage() {
           <Link href="/approvals" className="card hover:shadow-lg transition-shadow cursor-pointer">
             <div className="text-center">
               <div className="text-4xl mb-2">✅</div>
-              <h3 className="font-bold text-gray-900">Review Approvals</h3>
-              <p className="text-sm text-gray-600 mt-2">Approve or reject requests</p>
+              <h3 className="font-bold text-gray-900 dark:text-gray-100">Review Approvals</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">Approve or reject requests</p>
             </div>
           </Link>
         )}
@@ -183,8 +183,8 @@ export default function DashboardPage() {
         <Link href="/status" className="card hover:shadow-lg transition-shadow cursor-pointer">
           <div className="text-center">
             <div className="text-4xl mb-2">📊</div>
-            <h3 className="font-bold text-gray-900">System Status</h3>
-            <p className="text-sm text-gray-600 mt-2">Check system health</p>
+            <h3 className="font-bold text-gray-900 dark:text-gray-100">System Status</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">Check system health</p>
           </div>
         </Link>
       </div>
